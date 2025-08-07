@@ -1,0 +1,19 @@
+<!doctype html><meta charset="utf-8">
+<h1>Digital Medical Passport (SMART demo)</h1>
+<button onclick="location.href='/login'">Log In via Keycloak</button><br><br>
+<input id="pid" placeholder="Patient UUID" style="width:320px">
+<button onclick="view()">View Patient Data</button>
+<pre id="out" style="background:#f8f8f8;padding:1em;border:1px solid #ccc;"></pre>
+
+<script>
+const token = () => document.cookie.split('; ').find(r=>r.startsWith('access_token='))?.split('=')[1]||'';
+async function view(){
+  const t=token(); if(!t){alert('login first');return;}
+  const id=document.getElementById('pid').value.trim();
+  if(!id){alert('enter id');return;}
+  const r=await fetch(`/api/patients/${id}/data`,{headers:{Authorization:`Bearer ${t}`}});
+  document.getElementById('out').textContent = r.ok
+      ? JSON.stringify(await r.json(),null,2)
+      : `Error ${r.status}: `+await r.text();
+}
+</script>

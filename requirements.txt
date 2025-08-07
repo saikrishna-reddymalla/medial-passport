@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+pymongo
+python-multipart
+cryptography
+authlib
+httpx
+itsdangerous
+python-dotenv
+watchfiles
+fhir.resources
